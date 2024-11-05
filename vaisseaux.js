@@ -4,6 +4,7 @@ class Vaisseau {
         this.vitesse = vitesse; // m/s
         this.couleur = couleur;
         this.latence = latence; // s
+        this.tempsParcours = null;
     }
 
     compareVaisseau(other) {
@@ -45,15 +46,16 @@ class Circuit {
     }
 
     vainqueur() {
-        const temps_min_parcours = 0;
         const distance_total = (this.nb_tours * this.distance_tour);
-        let vainqueur = null;
+        let vainqueur = this.vaisseauxList[0];
+        const temps_min_parcours = distance_total / vainqueur.vitesse + vainqueur.latence;;
 
         //OPTION 1
         //parcourir la liste de vaisseaux
         //conserver à chaque fois le vaisseau ayant le plus petit temps
         for (const vaisseau of this.vaisseauxList) {
             const temps_total_v = distance_total / vaisseau.vitesse + vaisseau.latence;
+            vaisseau.tempsParcours = temps_total_v;
             if (temps_total_v < temps_min_parcours) {
                 vainqueur = vaisseau;
             }           
@@ -76,10 +78,11 @@ const vs = [
 
 const melbourne = new Circuit(5, 1300);
 melbourne.subscribe(vs[0]);
-melbourne.subscribe(vs[0]);
 melbourne.subscribe(vs[1]);
+melbourne.subscribe(vs[2]);
+melbourne.subscribe(vs[3]);
 melbourne.subscribe(new Vaisseau(vs[0].nom, vs[0].couleur, vs[0].vitesse, vs[0].latence));
 
-console.log(melbourne);
-console.log(melbourne.vainqueur());
+console.log(`Vainqueur: ${JSON.stringify(melbourne.vainqueur())}`);
 
+console.log(melbourne);

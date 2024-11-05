@@ -5,6 +5,7 @@ class Vaisseau {
         this.couleur = couleur;
         this.latence = latence; // s
         this.tempsParcours = null;
+        this.distance_parcourue = 0;
     }
 
     compareVaisseau(other) {
@@ -20,6 +21,7 @@ class Circuit {
         this.vaisseaux = new Set();
         this.vaisseauxMap = new Map();
         this.vaisseauxList = [];
+        this.temps_passe = 0;
     }
 
     subscribe(vaisseau) {
@@ -75,6 +77,20 @@ class Circuit {
         return this.vaisseauxList[0];
     }
 
+    calculer_distance_parcourue() {
+        for (const vaisseau of this.vaisseauxList) {
+            this.calculer_distance(vaisseau);
+        }
+    }
+
+    calculer_distance(vaisseau) {
+        vaisseau.distance_parcourue = Math.max(this.temps_passe - vaisseau.latence, 0) * vaisseau.vitesse;
+    }
+
+    avance_prochaine_seconde() {
+        this.temps_passe++;
+    }
+
 }
 
 const vs = [
@@ -91,6 +107,12 @@ melbourne.subscribe(vs[2]);
 melbourne.subscribe(vs[3]);
 melbourne.subscribe(new Vaisseau(vs[0].nom, vs[0].couleur, vs[0].vitesse, vs[0].latence));
 
-console.log(`Vainqueur: ${JSON.stringify(melbourne.vainqueurV2())}`);
+// console.log(`Vainqueur: ${JSON.stringify(melbourne.vainqueurV2())}`);
 
+console.log(melbourne);
+melbourne.avance_prochaine_seconde();
+melbourne.avance_prochaine_seconde();
+melbourne.avance_prochaine_seconde();
+melbourne.avance_prochaine_seconde();
+melbourne.calculer_distance_parcourue();
 console.log(melbourne);

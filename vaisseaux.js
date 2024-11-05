@@ -91,6 +91,25 @@ class Circuit {
         this.temps_passe++;
     }
 
+    jouer_la_course() {
+
+    const distance_totale = this.distance_tour * this.nb_tours;
+    // 1. démarrer la course
+
+    while (distance_totale > this.vainqueur().distance_parcourue) {
+        // 2. avancer chaque seconde automatiquement
+        this.avance_prochaine_seconde();
+        this.calculer_distance_parcourue();
+        // 3. afficher à chaque fois la distance parcourue et la position des vaisseaux
+        console.log(`Temps passé : ${this.temps_passe}`);
+        console.log(this.vaisseauxList);
+        // 4. arrêter dès que le 1er vaisseau franchit la ligne d'arrivée
+    }
+
+
+    }
+
+
 }
 
 const vs = [
@@ -100,7 +119,7 @@ const vs = [
     new Vaisseau('v4', 'v', 100, 1)
 ];
 
-const melbourne = new Circuit(5, 1300);
+const melbourne = new Circuit(5, 250);
 melbourne.subscribe(vs[0]);
 melbourne.subscribe(vs[1]);
 melbourne.subscribe(vs[2]);
@@ -109,10 +128,4 @@ melbourne.subscribe(new Vaisseau(vs[0].nom, vs[0].couleur, vs[0].vitesse, vs[0].
 
 // console.log(`Vainqueur: ${JSON.stringify(melbourne.vainqueurV2())}`);
 
-console.log(melbourne);
-melbourne.avance_prochaine_seconde();
-melbourne.avance_prochaine_seconde();
-melbourne.avance_prochaine_seconde();
-melbourne.avance_prochaine_seconde();
-melbourne.calculer_distance_parcourue();
-console.log(melbourne);
+melbourne.jouer_la_course();

@@ -48,15 +48,14 @@ class Circuit {
     vainqueur() {
         const distance_total = (this.nb_tours * this.distance_tour);
         let vainqueur = this.vaisseauxList[0];
-        const temps_min_parcours = distance_total / vainqueur.vitesse + vainqueur.latence;;
+        vainqueur.tempsParcours = distance_total / vainqueur.vitesse + vainqueur.latence;
 
         //OPTION 1
         //parcourir la liste de vaisseaux
         //conserver à chaque fois le vaisseau ayant le plus petit temps
         for (const vaisseau of this.vaisseauxList) {
-            const temps_total_v = distance_total / vaisseau.vitesse + vaisseau.latence;
-            vaisseau.tempsParcours = temps_total_v;
-            if (temps_total_v < temps_min_parcours) {
+            vaisseau.tempsParcours = distance_total / vaisseau.vitesse + vaisseau.latence;
+            if (vaisseau.tempsParcours < vainqueur.tempsParcours) {
                 vainqueur = vaisseau;
             }           
         }

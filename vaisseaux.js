@@ -61,9 +61,18 @@ class Circuit {
         }
         return vainqueur;
 
-        //OPTION 2
         //calculer tous les temps de parcours
         //chercher la valeur min parmi tous les temps de parcours
+    }
+
+    vainqueurV2() {
+        //OPTION 2
+        const distance_total = (this.nb_tours * this.distance_tour);
+        for (const vaisseau of this.vaisseauxList) {
+            vaisseau.tempsParcours = distance_total / vaisseau.vitesse + vaisseau.latence;
+        }
+        this.vaisseauxList.sort((v1, v2) => v1.tempsParcours - v2.tempsParcours);
+        return this.vaisseauxList[0];
     }
 
 }
@@ -82,6 +91,6 @@ melbourne.subscribe(vs[2]);
 melbourne.subscribe(vs[3]);
 melbourne.subscribe(new Vaisseau(vs[0].nom, vs[0].couleur, vs[0].vitesse, vs[0].latence));
 
-console.log(`Vainqueur: ${JSON.stringify(melbourne.vainqueur())}`);
+console.log(`Vainqueur: ${JSON.stringify(melbourne.vainqueurV2())}`);
 
 console.log(melbourne);
